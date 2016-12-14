@@ -44,7 +44,7 @@ import java.io.IOException;
 public class AdvancedPreferenceFragment extends PreferenceFragment {
   private static final String TAG = AdvancedPreferenceFragment.class.getSimpleName();
 
-  private static final String PUSH_MESSAGING_PREF   = "pref_toggle_push_messaging";
+  private static final String MESSAGING_PREF   = "pref_toggle_messaging";
   private static final String SUBMIT_DEBUG_LOG_PREF = "pref_submit_debug_logs";
 
   private static final int PICK_IDENTITY_CONTACT = 1;
@@ -69,7 +69,7 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
     super.onResume();
     ((ApplicationPreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.preferences__advanced);
 
-    initializePushMessagingToggle();
+    initializeMessagingToggle();
     initializeWebrtcCallingToggle();
   }
 
@@ -83,10 +83,10 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
     }
   }
 
-  private void initializePushMessagingToggle() {
-    CheckBoxPreference preference = (CheckBoxPreference)this.findPreference(PUSH_MESSAGING_PREF);
+  private void initializeMessagingToggle() {
+    CheckBoxPreference preference = (CheckBoxPreference)this.findPreference(MESSAGING_PREF);
 
-    if (TextSecurePreferences.isPushRegistered(getActivity())) {
+    if (TextSecurePreferences.isRegistered(getActivity())) {
       preference.setChecked(true);
       preference.setSummary(TextSecurePreferences.getLocalNumber(getActivity()));
     } else {
@@ -94,7 +94,7 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
       preference.setSummary(R.string.preferences__free_private_messages_and_calls);
     }
 
-    preference.setOnPreferenceChangeListener(new PushMessagingClickListener());
+    preference.setOnPreferenceChangeListener(new MessagingClickListener());
   }
 
   private void initializeWebrtcCallingToggle() {
@@ -176,14 +176,14 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
     }
   }
 
-  private class PushMessagingClickListener implements Preference.OnPreferenceChangeListener {
+  private class MessagingClickListener implements Preference.OnPreferenceChangeListener {
     private static final int SUCCESS       = 0;
     private static final int NETWORK_ERROR = 1;
 
-    private class DisablePushMessagesTask extends ProgressDialogAsyncTask<Void, Void, Integer> {
+    private class DisableMessagesTask extends ProgressDialogAsyncTask<Void, Void, Integer> {
       private final CheckBoxPreference checkBoxPreference;
 
-      public DisablePushMessagesTask(final CheckBoxPreference checkBoxPreference) {
+      public DisableMessagesTask(final CheckBoxPreference checkBoxPreference) {
         super(getActivity(), R.string.ApplicationPreferencesActivity_unregistering, R.string.ApplicationPreferencesActivity_unregistering_from_signal_messages_and_calls);
         this.checkBoxPreference = checkBoxPreference;
       }
@@ -198,8 +198,8 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
                          Toast.LENGTH_LONG).show();
           break;
         case SUCCESS:
-          TextSecurePreferences.setPushRegistered(getActivity(), false);
-          initializePushMessagingToggle();
+          TextSecurePreferences.setRegistered(getActivity(), false);
+          initializeMessagingToggle();
           break;
         }
       }
@@ -247,7 +247,7 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
-            new DisablePushMessagesTask((CheckBoxPreference)preference).execute();
+            new DisableMessagesTask((CheckBoxPreference)preference).execute();
           }
         });
         builder.show();

@@ -160,7 +160,7 @@ public class DirectoryHelper {
         return UserCapabilities.UNSUPPORTED;
       }
 
-      if (!TextSecurePreferences.isPushRegistered(context)) {
+      if (!TextSecurePreferences.isRegistered(context)) {
         return UserCapabilities.UNSUPPORTED;
       }
 
