@@ -3,6 +3,9 @@ package org.thoughtcrime.securesms.jobs;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import org.thoughtcrime.redphone.signaling.RedPhoneAccountAttributes;
 import org.thoughtcrime.redphone.signaling.RedPhoneAccountManager;
 import org.thoughtcrime.securesms.dependencies.InjectableType;
@@ -44,10 +47,14 @@ public class RefreshAttributesJob extends ContextJob implements InjectableType {
     int     registrationId    = TextSecurePreferences.getLocalRegistrationId(context);
     boolean video             = TextSecurePreferences.isWebrtcCallingEnabled(context);
 
-    String token = signalAccountManager.getAccountVerificationToken();
+    if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) {
+      String token = signalAccountManager.getAccountVerificationToken();
 
-    redPhoneAccountManager.createAccount(token, new RedPhoneAccountAttributes(signalingKey, gcmRegistrationId));
-    signalAccountManager.setAccountAttributes(signalingKey, registrationId, true, video);
+      redPhoneAccountManager.createAccount(token, new RedPhoneAccountAttributes(signalingKey, gcmRegistrationId));
+      signalAccountManager.setAccountAttributes(signalingKey, registrationId, true, video, false);
+    } else {
+      signalAccountManager.setAccountAttributes(signalingKey, registrationId, false, video, true);
+    }
   }
 
   @Override

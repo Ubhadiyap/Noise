@@ -30,6 +30,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import org.thoughtcrime.securesms.crypto.MasterSecret;
 import org.thoughtcrime.securesms.push.AccountManagerFactory;
 import org.thoughtcrime.securesms.service.RegistrationService;
@@ -521,8 +524,9 @@ public class RegistrationProgressActivity extends BaseActionBarActivity {
             SignalServiceAccountManager accountManager = AccountManagerFactory.createManager(context, e164number, password);
             int                         registrationId = TextSecurePreferences.getLocalRegistrationId(context);
             boolean                     video          = TextSecurePreferences.isWebrtcCallingEnabled(context);
+            boolean                     hasServices    = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS;
 
-            accountManager.verifyAccountWithCode(code, signalingKey, registrationId, true, video);
+            accountManager.verifyAccountWithCode(code, signalingKey, registrationId, hasServices, video, !hasServices);
 
             return SUCCESS;
           } catch (ExpectationFailedException e) {
