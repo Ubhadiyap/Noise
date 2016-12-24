@@ -196,6 +196,8 @@ android {
     }
 
     defaultConfig {
+        applicationId "co.copperhead.noise"
+
         versionCode 245
         versionName "3.31.0"
 
