@@ -199,8 +199,10 @@ android {
     }
 
     defaultConfig {
-        versionCode 266
-        versionName "4.5.3"
+        applicationId "co.copperhead.noise"
+
+        versionCode 2660000
+        versionName "4.5.3-0"
 
         minSdkVersion 9
         targetSdkVersion 22
