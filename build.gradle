@@ -197,8 +197,10 @@ android {
     }
 
     defaultConfig {
-        versionCode 247
-        versionName "3.31.2"
+        applicationId "co.copperhead.noise"
+
+        versionCode 2470000
+        versionName "3.31.2-0"
 
         minSdkVersion 9
         targetSdkVersion 22
