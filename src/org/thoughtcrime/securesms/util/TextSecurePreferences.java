@@ -108,6 +108,7 @@ public class TextSecurePreferences {
   }
 
   public static boolean isGcmDisabled(Context context) {
+    setGcmDisabled(context, true);
     return getBooleanPreference(context, GCM_DISABLED_PREF, false);
   }
 
