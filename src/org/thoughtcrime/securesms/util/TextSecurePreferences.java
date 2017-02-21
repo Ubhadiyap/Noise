@@ -65,6 +65,7 @@ public class TextSecurePreferences {
   private static final String THREAD_TRIM_ENABLED              = "pref_trim_threads";
   private static final String LOCAL_NUMBER_PREF                = "pref_local_number";
   private static final String VERIFYING_STATE_PREF             = "pref_verifying";
+  public  static final String REGISTERED_PREF                  = "pref_registered";
   public  static final String REGISTERED_GCM_PREF              = "pref_gcm_registered";
   private static final String GCM_PASSWORD_PREF                = "pref_gcm_password";
   private static final String PROMPTED_PUSH_REGISTRATION_PREF  = "pref_prompted_push_registration";
@@ -108,6 +109,7 @@ public class TextSecurePreferences {
   }
 
   public static boolean isGcmDisabled(Context context) {
+    setGcmDisabled(context, true);
     return getBooleanPreference(context, GCM_DISABLED_PREF, false);
   }
 
@@ -443,6 +445,9 @@ public class TextSecurePreferences {
   }
 
   public static boolean isPushRegistered(Context context) {
+    if (getBooleanPreference(context, REGISTERED_PREF, false)) {
+      setPushRegistered(context, true);
+    }
     return getBooleanPreference(context, REGISTERED_GCM_PREF, false);
   }
 
