@@ -220,7 +220,7 @@
   <!--ExperienceUpgradeActivity-->
   <string name="ExperienceUpgradeActivity_welcome_to_signal_dgaf">సిగ్నల్‌కి స్వాగతం.</string>
   <string name="ExperienceUpgradeActivity_welcome_to_signal_excited">సిగ్నల్ కి స్వాగతం!</string>
-  <string name="ExperienceUpgradeActivity_textsecure_is_now_signal">TextSecure ఇప్పుడు Signal.</string>
+  <string name="ExperienceUpgradeActivity_textsecure_is_now_signal">TextSecure ఇప్పుడు Noise.</string>
   <!--ExportFragment-->
   <string name="ExportFragment_export">ఎగుమతి</string>
   <string name="ExportFragment_export_plaintext_to_storage">సహజమైన వాక్యాలను నిల్వచేయుటకు ఎగుమతి చేయాలా?</string>
